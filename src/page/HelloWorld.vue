@@ -1,6 +1,11 @@
 <template>
   <div class="hello">
     <div>一键补日报</div>
+    <input type="text" v-model="zh">账号
+    <br>
+    <input type="text" v-model="mm">密码
+    <br>
+    <input type="text" v-model="inputDate">时间
     <br>
     <button @click="star1">执行一次</button>
     <button @click="star">开始</button>
@@ -24,17 +29,21 @@ export default {
       timeOut: '', // 日报定时器
       sign: '', // 请求的sign
       ms: "12", // 默认时间
-      title: '日报' // 日报标题
+      title: '日报', // 日报标题
+      inputDate:'',
+      zh:'',
+      mm:''
     }
   },
   mounted() {
   },
   updated() {
+    console.log(this.inputDate);
   },
   methods: {
     getAES() {
       // 账号加密
-      let iphone = AES.getAES('15579742513')
+      let iphone = AES.getAES(this.zh)
       this.phone = iphone
       console.log('账号----------' + iphone);
       // 时间戳加密
@@ -44,7 +53,7 @@ export default {
       this.t = t
       console.log('时间戳-------' + t);
       // 密码加密
-      let passworld = AES.getAES('Hf123456')
+      let passworld = AES.getAES(this.mm)
       this.passworld = passworld
       console.log('密码--------' + passworld);
     },
@@ -109,7 +118,7 @@ export default {
           "content": "又是开心的工作了一天happyday",
           "imageList": [],
           "planId": "f554902da5fb17f296d5f8fb3f8bc008",
-          "reportTime": this.jrDate,
+          "reportTime": this.inputDate || this.jrDate,
           "reportType": "day",
           "t": this.t,
           "title": this.title,
